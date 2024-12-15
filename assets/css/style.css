@@ -5,6 +5,6 @@
 }
 
 .map_App{
-    width: 1920px;
-    height: 720px;
+    width: 100vw;
+    height: 400vh;
 }
