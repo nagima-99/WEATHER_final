@@ -14,14 +14,26 @@ async function initMap() {
         // Передаём параметры инициализации карты
         {
             location: {
-                // Координаты центра карты
-                center: [100.28133603255901,69.36563991583309],
-
-                // Уровень масштабирования
-                zoom: 10
+                center: [69.381502,53.30124013562887],
+                zoom: 12,
+                controls: ['zoomControl'],
+            },{
+                // Ограничение области перемещения карты
+                restrictMapArea: [
+                    [55.0, 36.0], // Левый нижний угол
+                    [56.5, 38.5]  // Правый верхний угол
+                ],
+                minZoom: 5, // Минимальный уровень зума
+                maxZoom: 15 // Максимальный уровень зума
             }
         }
     );
+
+    myMap.controls.add('zoomControl', {
+        size: 'small',
+        float: 'right'
+    });
+
 
     // Добавляем слой для отображения схематической карты
     map.addChild(new YMapDefaultSchemeLayer());
@@ -124,81 +136,6 @@ async function initMap() {
             },
             {
                 "tags": {
-                    "any": "poi",
-                    "none": [
-                        "outdoor",
-                        "park",
-                        "cemetery",
-                        "medical"
-                    ]
-                },
-                "stylers": {
-                    "visibility": "off"
-                }
-            },
-            {
-                "tags": {
-                    "any": "road"
-                },
-                "types": "point",
-                "stylers": {
-                    "visibility": "off"
-                }
-            },
-            {
-                "tags": {
-                    "any": [
-                        "food_and_drink",
-                        "shopping",
-                        "commercial_services"
-                    ]
-                },
-                "stylers": {
-                    "visibility": "off"
-                }
-            },
-            {
-                "tags": {
-                    "any": [
-                        "traffic_light"
-                    ]
-                },
-                "stylers": {
-                    "visibility": "off"
-                }
-            },
-            {
-                "tags": {
-                    "any": [
-                        "entrance"
-                    ]
-                },
-                "stylers": {
-                    "visibility": "off"
-                }
-            },
-            {
-                "tags": {
-                    "any": [
-                        "road"
-                    ],
-                    "none": [
-                        "road_1",
-                        "road_2",
-                        "road_3",
-                        "road_4",
-                        "road_5",
-                        "road_6",
-                        "road_7"
-                    ]
-                },
-                "elements": "label.icon",
-                "stylers": {
-                    "visibility": "off"
-                }
-            },
-            {
-                "tags": {
                     "any": [
                         "building",
                         "address",
@@ -212,5 +149,12 @@ async function initMap() {
         ]
     }));
 }
+
+
+
+
+
+
+
 
 

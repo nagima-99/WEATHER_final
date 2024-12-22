@@ -1,10 +1,5 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-.map_App{
-    width: 100vw;
-    height: 400vh;
+
+html, body{
+    background-color: black;
 }
