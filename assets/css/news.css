@@ -18,7 +18,7 @@ body {
   padding: 1rem 2rem;
   color: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
 }
@@ -26,6 +26,14 @@ body {
 .header-brand {
   display: flex;
   flex-direction: column;
+  margin-left: 0.7rem; /* Отступ между логотипом и текстом */
+}
+
+.logo {
+  max-width: 50px; /* Максимальная ширина логотипа */
+  max-height: 50px; /* Максимальная высота логотипа */
+  width: auto;
+  height: auto;
 }
 
 .brand-title {
@@ -44,6 +52,7 @@ body {
   list-style: none;
   gap: 2rem;
   align-items: center;
+  margin-left: 35vw;
 }
 
 .nav-link {
@@ -94,37 +103,124 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.news-container {
+/* Основной контейнер для управления новостями */
+.controls {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   gap: 1rem;
+  margin: 2rem 0;
   padding: 1rem;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.news-item {
-  background-color: white;
-  border: 1px solid #ddd;
+.controls:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Метка для поля ввода */
+.controls label {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+.news-image {
+  max-width: 100%;
+  height: auto;
   border-radius: 5px;
-  width: 300px;
-  padding: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+/* Поле ввода количества новостей */
+#news-count {
+  width: 60px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.news-item h2 {
+#news-count:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Кнопка загрузки новостей */
+#load-news-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#load-news-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#load-news-btn:active {
+  transform: scale(1);
+}
+
+/* Контейнер для новостей */
+.news-container {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  padding: 1rem;
+}
+
+/* Карточки новостей */
+.news-item {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.news-item h2 a {
   font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.news-item h2 a:hover {
+  color: #0056b3;
 }
 
 .news-item p {
+  margin-top: 0.5rem;
   font-size: 1rem;
-  margin: 0;
+  color: #555;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: block;
+    margin-left: 30vw;
+  }
+
+  .logo {
+    max-width: 40px; /* Уменьшаем размер логотипа на мобильных устройствах */
+    max-height: 40px;
   }
 
   .nav-list {

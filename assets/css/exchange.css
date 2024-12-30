@@ -18,7 +18,7 @@ body {
   padding: 1rem 2rem;
   color: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
 }
@@ -31,6 +31,7 @@ body {
 .header-brand {
   display: flex;
   flex-direction: column;
+  margin-left: 0.7rem;
 }
 
 .brand-title {
@@ -43,12 +44,20 @@ body {
   opacity: 0.8;
 }
 
+.logo {
+  max-width: 50px; /* Максимальная ширина логотипа */
+  max-height: 50px; /* Максимальная высота логотипа */
+  width: auto;
+  height: auto;
+}
+
 /* Navigation styles */
 .nav-list {
   display: flex;
   list-style: none;
   gap: 2rem;
   align-items: center;
+  margin-left: 35vw;
 }
 
 .nav-link {
@@ -103,6 +112,12 @@ body {
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: block;
+    margin-left: 30vw;
+  }
+
+  .logo {
+    max-width: 40px; /* Уменьшаем размер логотипа на мобильных устройствах */
+    max-height: 40px;
   }
 
   .nav-list {

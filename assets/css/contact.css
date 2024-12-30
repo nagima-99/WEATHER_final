@@ -26,6 +26,14 @@ body {
 .header-brand {
   display: flex;
   flex-direction: column;
+  margin-left: 0.7rem;
+}
+
+.logo {
+  max-width: 50px; /* Максимальная ширина логотипа */
+  max-height: 50px; /* Максимальная высота логотипа */
+  width: auto;
+  height: auto;
 }
 
 .brand-title {
@@ -44,6 +52,7 @@ body {
   list-style: none;
   gap: 2rem;
   align-items: center;
+  margin-left: 35vw;
 }
 
 .nav-link {
@@ -263,6 +272,12 @@ body {
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: block;
+    margin-left: 30vw;
+  }
+
+  .logo {
+    max-width: 40px; /* Уменьшаем размер логотипа на мобильных устройствах */
+    max-height: 40px;
   }
 
   .nav-list {
