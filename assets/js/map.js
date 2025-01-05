@@ -17,7 +17,7 @@ async function initMap() {
                 center: [69.381502,53.30124013562887],
                 zoom: 12,
                 controls: ['zoomControl'],
-            },{
+            },
                 // Ограничение области перемещения карты
                 restrictMapArea: [
                     [55.0, 36.0], // Левый нижний угол
@@ -25,7 +25,6 @@ async function initMap() {
                 ],
                 minZoom: 5, // Минимальный уровень зума
                 maxZoom: 15 // Максимальный уровень зума
-            }
         }
     );
 

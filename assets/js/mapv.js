@@ -13,9 +13,31 @@ function init() {
     }
   );
 
+  myMap.controls.remove("fullscreenControl");
   let addedCitiesCoords = [];
 
   function getWeatherData(cityCoords, cityName) {
+    const weatherIcons = {
+      "01d": "./assets/icons/01d.svg",
+      "01n": "./assets/icons/01n.svg",
+      "02d": "./assets/icons/02d.svg",
+      "02n": "./assets/icons/02n.svg",
+      "03d": "./assets/icons/03.svg",
+      "03n": "./assets/icons/03.svg",
+      "04d": "./assets/icons/04d.svg",
+      "04n": "./assets/icons/04n.svg",
+      "09d": "./assets/icons/09d.svg",
+      "09n": "./assets/icons/09n.svg",
+      "10d": "./assets/icons/10d.svg",
+      "10n": "./assets/icons/10n.svg",
+      "11d": "./assets/icons/11d.svg",
+      "11n": "./assets/icons/11n.svg",
+      "13d": "./assets/icons/13d.svg",
+      "13n": "./assets/icons/13n.svg",
+      "50d": "./assets/icons/50d.svg",
+      "50n": "./assets/icons/50n.svg",
+    };
+    
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${cityCoords[0]}&lon=${cityCoords[1]}&units=metric&lang=ru&appid=077da3372a473e1ca741c926148d6387`
     )
@@ -24,28 +46,15 @@ function init() {
         const temperature = Math.round(weatherData.main.temp);
         const feelsLike = Math.round(weatherData.main.feels_like);
         const weatherDescription = weatherData.weather[0].description;
+        const weatherIconCode = weatherData.weather[0].icon;
         const windSpeed = weatherData.wind.speed;
         const humidity = weatherData.main.humidity;
         const pressure = weatherData.main.pressure;
-        const icon = weatherData.weather[0].icon;
+        const weathericonPath  = weatherIcons[weatherIconCode];
 
         const placemark = new ymaps.Placemark(
           cityCoords,
           {
-            balloonContent: `
-                    <div style="font-family: Arial, sans-serif; text-align: center; padding: 10px; max-width: 250px;">
-                        <h3 style="margin: 5px 0;">${cityName}</h3>
-                        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${weatherDescription}" style="width: 80px; height: 80px; margin-bottom: 10px;">
-                        <p style="margin: 5px 0; font-size: 14px; color: #333;">
-                            <b>Температура:</b> ${temperature}°C<br>
-                            <b>Ощущается как:</b> ${feelsLike}°C<br>
-                            <b>Описание:</b> ${weatherDescription}<br>
-                            <b>Ветер:</b> ${windSpeed} м/с<br>
-                            <b>Влажность:</b> ${humidity}%<br>
-                            <b>Давление:</b> ${pressure} гПа
-                        </p>
-                    </div>
-                `,
             iconCaption: `${cityName}: ${temperature}°C`,
           },
           {
@@ -53,6 +62,46 @@ function init() {
             iconCaptionMaxWidth: "200",
           }
         );
+
+        placemark.events.add("click", () => {
+          const sidebar = document.getElementById("sidebar");
+          const cityNameElement = document.getElementById("city-name");
+          const cityInfoElement = document.getElementById("city-info");
+
+          cityNameElement.textContent = cityName;
+          cityInfoElement.innerHTML = `
+            <div class="weather-current">
+              <img src="${weathericonPath}" alt="Иконка погоды" class="weather-icon">
+              <div class="weather-details">
+                <div>
+                  <img src="./assets/icons/thermometer-celsius.svg" alt="Температура" class="inline-icon">
+                  <strong>${temperature}°C</strong> (Ощущается как ${feelsLike}°C)
+                </div>
+                <div>
+                  <img src="${weathericonPath}" alt="Описание погоды" class="inline-icon">
+                  ${weatherDescription}
+                </div>
+                <div>
+                  <img src="./assets/icons/windsock.svg" alt="Скорость ветра" class="inline-icon">
+                  Ветер: ${windSpeed} м/с
+                </div>
+                <div>
+                  <img src="./assets/icons/humidity.svg" alt="Влажность" class="inline-icon">
+                  Влажность: ${humidity}%
+                </div>
+                <div>
+                  <img src="./assets/icons/barometer.svg" alt="Давление" class="inline-icon">
+                  Давление: ${pressure} гПа
+                </div>
+              </div>
+            </div>
+          `;
+
+
+          sidebar.classList.add("open");
+
+          getForecastData(cityCoords);
+        });
 
         myMap.geoObjects.add(placemark);
         addedCitiesCoords.push(cityCoords);
@@ -62,39 +111,139 @@ function init() {
       );
   }
 
+  function getForecastData(cityCoords) {
+    const forecastIcons = {
+      "01d": "./assets/icons/01d.svg",
+      "01n": "./assets/icons/01n.svg",
+      "02d": "./assets/icons/02d.svg",
+      "02n": "./assets/icons/02n.svg",
+      "03d": "./assets/icons/03.svg",
+      "03n": "./assets/icons/03.svg",
+      "04d": "./assets/icons/04d.svg",
+      "04n": "./assets/icons/04n.svg",
+      "09d": "./assets/icons/09d.svg",
+      "09n": "./assets/icons/09n.svg",
+      "10d": "./assets/icons/10d.svg",
+      "10n": "./assets/icons/10n.svg",
+      "11d": "./assets/icons/11d.svg",
+      "11n": "./assets/icons/11n.svg",
+      "13d": "./assets/icons/13d.svg",
+      "13n": "./assets/icons/13n.svg",
+      "50d": "./assets/icons/50d.svg",
+      "50n": "./assets/icons/50n.svg",
+    };
+  
+    fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${cityCoords[0]}&lon=${cityCoords[1]}&units=metric&lang=ru&appid=077da3372a473e1ca741c926148d6387`
+    )
+      .then((response) => response.json())
+      .then((forecastData) => {
+        const forecastContainer = document.getElementById("forecast-container");
+        forecastContainer.innerHTML = "";
+  
+        const dailyForecast = {};
+        forecastData.list.forEach((entry) => {
+          const dateTime = new Date(entry.dt * 1000);
+          const date = dateTime.toLocaleDateString("ru-RU", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+          });
+          if (!dailyForecast[date]) dailyForecast[date] = [];
+          dailyForecast[date].push(entry);
+        });
+  
+        Object.keys(dailyForecast).forEach((date) => {
+          const dailyEntries = dailyForecast[date];
+          const dayBlock = document.createElement("div");
+          dayBlock.className = "forecast-day";
+  
+          const dayTitle = document.createElement("h3");
+          dayTitle.textContent = date;
+          dayTitle.style.marginBottom = "10px";
+          dayBlock.appendChild(dayTitle);
+  
+          dailyEntries.forEach((entry) => {
+            const dateTime = new Date(entry.dt * 1000);
+            const formattedTime = dateTime.toLocaleTimeString("ru-RU", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            const temperature = Math.round(entry.main.temp);
+            const feelsLike = Math.round(entry.main.feels_like);
+            const description = entry.weather[0].description;
+            const weatherIconCode = entry.weather[0].icon;
+            const weathericonPath = forecastIcons[weatherIconCode];
+  
+            const forecastElement = document.createElement("div");
+            forecastElement.className = "forecast-entry";
+            forecastElement.innerHTML = `
+              <div class="forecast-timestamp">${formattedTime}</div>
+              <div class="forecast-data">
+                <img src="${weathericonPath}" alt="Иконка погоды" class="weather-icon-forecast">
+              </div>
+                <div class="forecast-details">
+                  <strong>${temperature}°C</strong> (Ощущается как ${feelsLike}°C)<br>
+                  ${description}
+              </div>
+            `;
+            dayBlock.appendChild(forecastElement);
+          });
+  
+          forecastContainer.appendChild(dayBlock);
+        });
+      })
+      .catch((error) =>
+        console.error("Ошибка получения данных прогноза:", error)
+      );
+  }
+  
+
   function getCitiesData() {
     const zoomLevel = myMap.getZoom();
-    const maxRows = zoomLevel > 10 ? 100 : 50;
-
     const bounds = myMap.getBounds();
     const southwest = bounds[0];
     const northeast = bounds[1];
 
     fetch(
-      `http://api.geonames.org/searchJSON?featureClass=P&featureCode=PPLA&featureCode=PPLA2&featureCode=PPLA3&featureCode=PPLC&maxRows=${maxRows}&lang=ru&username=nagima&south=${southwest[0]}&north=${northeast[0]}&west=${southwest[1]}&east=${northeast[1]}`
+      `http://api.geonames.org/searchJSON?country=KZ&featureClass=P&maxRows=50&lang=ru&username=nagima&south=${southwest[0]}&north=${northeast[0]}&west=${southwest[1]}&east=${northeast[1]}`
     )
       .then((response) => response.json())
       .then((data) => {
-        const largeCities = data.geonames.filter(
-          (city) => city.population > 45000
-        );
+        if (data.geonames && data.geonames.length > 0) {
+          data.geonames.forEach((city) => {
+            const cityCoords = [city.lat, city.lng];
+            const population = city.population || 0;
 
-        largeCities.forEach((city) => {
-          const cityCoords = [city.lat, city.lng];
-          if (
-            !addedCitiesCoords.some(
-              (coord) =>
-                coord[0] === cityCoords[0] && coord[1] === cityCoords[1]
-            )
-          ) {
-            getWeatherData(cityCoords, city.name);
-          }
-        });
+            // Фильтрация на основе зума
+            if (
+              (zoomLevel <= 6 && population > 100000) || // Крупные города
+              (zoomLevel > 6 && zoomLevel <= 10 && population > 10000) || // Средние города
+              (zoomLevel > 10) // Все города
+            ) {
+              if (
+                !addedCitiesCoords.some(
+                  (coord) =>
+                    coord[0] === cityCoords[0] && coord[1] === cityCoords[1]
+                )
+              ) {
+                getWeatherData(cityCoords, city.name);
+              }
+            }
+          });
+        } else {
+          console.log("Нет данных о городах в данной области");
+        }
       })
       .catch((error) =>
         console.error("Ошибка получения данных о городах:", error)
       );
   }
+
+  document.getElementById("close-sidebar").addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.remove("open");
+  });
 
   myMap.events.add("zoomchange", function () {
     myMap.geoObjects.removeAll();
