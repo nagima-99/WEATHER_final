@@ -206,7 +206,7 @@ function init() {
     const northeast = bounds[1];
 
     fetch(
-      `https://api.geonames.org/searchJSON?country=KZ&featureClass=P&maxRows=50&lang=ru&username=nagima&south=${southwest[0]}&north=${northeast[0]}&west=${southwest[1]}&east=${northeast[1]}`
+      `http://api.geonames.org/searchJSON?country=KZ&featureClass=P&maxRows=50&lang=ru&username=nagima&south=${southwest[0]}&north=${northeast[0]}&west=${southwest[1]}&east=${northeast[1]}`
     )
       .then((response) => response.json())
       .then((data) => {
