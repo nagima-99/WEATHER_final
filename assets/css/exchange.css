@@ -108,11 +108,100 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Footer styles */
+.footer {
+  background: #000;
+  color: gray;
+  padding: 30px 0;
+  font-family: 'Play', sans-serif;
+  text-align: center;
+}
+
+.footer .row {
+  margin: 10px 0;
+  font-size: 0.8em;
+}
+
+.footer .row a {
+  text-decoration: none;
+  color: gray;
+  transition: color 0.5s;
+}
+
+.footer .row a:hover {
+  color: #fff;
+}
+
+.footer .row ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer .row ul li {
+  display: inline-block;
+  margin: 0 30px;
+}
+
+.footer .row a i {
+  font-size: 2em;
+  margin: 0 1%;
+}
+
+/* Quote block styles */
+#random-phrase {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+#author {
+  font-size: 1rem;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #ccc;
+}
+
+#next-quote {
+  padding: 10px 20px;
+  background-color: #00b4d8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+#next-quote:hover {
+  background-color: #008a9d;
+}
+
+/* GitHub link styles */
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  color: gray;
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
+
+.github-link i {
+  font-size: 1.5em;
+  margin-right: 5px;
+}
+
+.github-link:hover {
+  color: #fff;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: block;
-    margin-left: 30vw;
+    margin-left: 15vw;
   }
 
   .logo {
@@ -287,5 +376,29 @@ label {
 
   .weather-section {
     padding: 1.5rem;
+  }
+
+  .footer {
+    padding: 20px;
+    text-align: left;
+  }
+
+  .footer .row ul li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .footer .row a i {
+    margin: 0 3%;
+  }
+  .github-link {
+    color: white; /* Цвет текста */
+    font-size: 24px; /* Размер значка */
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .github-link:hover {
+    color: #333; /* Цвет при наведении */
   }
 }

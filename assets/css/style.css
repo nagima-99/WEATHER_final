@@ -245,7 +245,7 @@ body {
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: block;
-    margin-left: 30vw;
+    margin-left: 15vw;
   }
 
   .logo {
